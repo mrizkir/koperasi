@@ -1,4 +1,9 @@
-package com.kopanusa.core.models;
+package com.kopanusa.core.models.auth;
+
+import java.time.LocalDateTime;
+
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -38,6 +43,14 @@ public class TokenModel
 
   public boolean expired;
 
+  @CreationTimestamp
+  @Column(name = "created_at", columnDefinition = "TIMESTAMP")
+  private LocalDateTime created_at;
+  
+  @UpdateTimestamp
+  @Column(name = "updated_at", columnDefinition = "TIMESTAMP")
+  private LocalDateTime updated_at;
+  
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "user_id")
   public UserModel user;

@@ -1,6 +1,9 @@
 spring:
   application:
     name:core
+  devtools:
+    livereload:
+      enabled: true
   datasource:
     url: jdbc:postgresql://localhost:5432/koperasi
     username: postgres

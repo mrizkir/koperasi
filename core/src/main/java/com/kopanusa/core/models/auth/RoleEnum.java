@@ -1,4 +1,4 @@
-package com.kopanusa.core.models;
+package com.kopanusa.core.models.auth;
 
 public enum RoleEnum
 {

@@ -1,6 +1,9 @@
-package com.kopanusa.core.models;
+package com.kopanusa.core.models.auth;
 
 import org.springframework.security.core.userdetails.UserDetails;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.GenerationTime;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
@@ -39,16 +42,16 @@ public class UserModel implements UserDetails
   @Column(length = 36)
   private String id;
   
-  @Column(length = 50)
+  @Column(unique = true, length = 50, nullable = false)
   private String username;
   
-  @Column(length = 50)
+  @Column(length = 100, nullable = false)
   private String password;
   
   @Column(length = 150)
   private String nama_lengkap;
   
-  @Column(length = 150)
+  @Column(unique = true, length = 150, nullable = false)
   private String email;
   
   @Column(length = 12)
@@ -57,16 +60,19 @@ public class UserModel implements UserDetails
   @Enumerated(EnumType.STRING)
   private RoleEnum role;
 
-  @Column(name = "created_at", columnDefinition = "TIMESTAMP")
+  @CreationTimestamp
+  @Column(name = "created_at", updatable = false, columnDefinition = "TIMESTAMP")
   private LocalDateTime created_at;
   
+  @UpdateTimestamp
   @Column(name = "updated_at", columnDefinition = "TIMESTAMP")
   private LocalDateTime updated_at;
 
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() 
   {
-    return List.of(new SimpleGrantedAuthority(role.name()));
+    // return List.of(new SimpleGrantedAuthority(role.name()));
+    return List.of();
   }
   
   @Override
