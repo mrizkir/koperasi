@@ -8,7 +8,11 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.stereotype.Service;
 
 import com.kopanusa.core.controllers.auth.LoginRequestBody;
+import com.kopanusa.core.models.auth.UserModel;
+import com.kopanusa.core.models.auth.TokenModel;
+import com.kopanusa.core.models.auth.TokenTypeEnum;
 import com.kopanusa.core.services.ServiceResponse;
+import com.kopanusa.core.repositories.auth.TokenRepository;
 import com.kopanusa.core.repositories.auth.UserRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -20,6 +24,7 @@ public class AuthenticationService
   private final UserRepository userRepository;
   private final JwtService jwtService;
   private final AuthenticationManager authenticationManager;
+  private final TokenRepository tokenRepository;
 
   public ServiceResponse authenticate(LoginRequestBody request)
   {
@@ -29,6 +34,10 @@ public class AuthenticationService
 
     Map<String, Object> data = new HashMap<>();
     data.put("token", token);
+    
+    var user = userRepository.findByUsername(request.getUsername()).orElseThrow();
+    revokeAllUserTokens(user);
+    saveUserToken(user, token);
 
     return ServiceResponse
       .builder()
@@ -37,6 +46,7 @@ public class AuthenticationService
       .payload(data)
       .build();
   }  
+
   public ServiceResponse me()
   {
     var user = userRepository.findByUsername("admin");
@@ -50,5 +60,32 @@ public class AuthenticationService
       .errorDesc("")
       .payload(data)
       .build();
+  }
+
+  private void revokeAllUserTokens(UserModel user) {
+    var validUserTokens = tokenRepository.findAllValidTokenByUser(user.getId());
+
+    if (validUserTokens.isEmpty())
+      return;
+
+    validUserTokens.forEach(token -> {
+      token.setExpired(true);
+      token.setRevoked(true);      
+    });
+
+    tokenRepository.saveAll(validUserTokens);
+  }
+
+  private void saveUserToken(UserModel user, String token) 
+  {
+    TokenModel jwtToken = TokenModel.builder()
+        .user(user)
+        .token(token)
+        .tokenType(TokenTypeEnum.BEARER)
+        .expired(false)
+        .revoked(false)
+        .build();
+
+    tokenRepository.save(jwtToken);
   }
 }

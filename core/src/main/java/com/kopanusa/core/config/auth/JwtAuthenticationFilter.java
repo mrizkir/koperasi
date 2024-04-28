@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import com.kopanusa.core.repositories.auth.TokenRepository;
 import com.kopanusa.core.services.auth.JwtService;
 
 import org.springframework.lang.NonNull;
@@ -27,7 +28,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter
 {
   private final JwtService jwtService;
   private final UserDetailsService userDetailsService;
-  
+  private final TokenRepository tokenRepository;
+
   @Override
   protected void doFilterInternal(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull FilterChain filterChain) throws ServletException, IOException 
   {
@@ -46,7 +48,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter
     if (userName != null && SecurityContextHolder.getContext().getAuthentication() == null)
     {
       UserDetails userDetails = this.userDetailsService.loadUserByUsername(userName);
-      if(jwtService.isTokenValid(token, userDetails))
+      var isTokenValid = tokenRepository.findByToken(token)
+        .map(t -> !t.isExpired() && !t.isRevoked())
+        .orElse(false);
+
+      if(jwtService.isTokenValid(token, userDetails) && isTokenValid)
       {
         UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
         authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
