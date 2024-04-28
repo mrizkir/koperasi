@@ -3,6 +3,8 @@ package com.kopanusa.core.services.auth;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Service;
 
 import com.kopanusa.core.controllers.auth.LoginRequestBody;
@@ -17,13 +19,15 @@ public class AuthenticationService
 {
   private final UserRepository userRepository;
   private final JwtService jwtService;
+  private final AuthenticationManager authenticationManager;
   
   public ServiceResponse authenticate(LoginRequestBody request)
   {
+    authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));
     var user = userRepository.findByUsername(request.getUsername());
     
-    var token = "123";
-    // var token = jwtService.generateToken(user);
+    // var token = "123";
+    var token = jwtService.generateToken(request.getUsername());
     Map<String, Object> data = new HashMap<>();
     data.put("token", token);
 
@@ -34,4 +38,6 @@ public class AuthenticationService
       .payload(data)
       .build();
   }
+  
+  
 }
