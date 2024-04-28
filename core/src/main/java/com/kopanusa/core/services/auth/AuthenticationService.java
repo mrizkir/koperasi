@@ -20,7 +20,7 @@ public class AuthenticationService
   private final UserRepository userRepository;
   private final JwtService jwtService;
   private final AuthenticationManager authenticationManager;
-  
+
   public ServiceResponse authenticate(LoginRequestBody request)
   {
     authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));

@@ -14,10 +14,16 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import lombok.RequiredArgsConstructor;
+
+import com.kopanusa.core.config.ApplicationConfig;
 
 @Service
+@RequiredArgsConstructor
 public class JwtService
 {
+  private final ApplicationConfig appConfig;
+
   public String extractUsername(String token) {
     return extractClaim(token, Claims::getSubject);
   }
@@ -33,17 +39,17 @@ public class JwtService
 
   public String generateToken(Map<String, Object> extraClaims, UserDetails userDetails)
   {
-    return buildToken(extraClaims, userDetails, 86400000);
+    return buildToken(extraClaims, userDetails, appConfig.getExpiration());
   }
 
   public String generateToken(String username){
     Map<String, Object> claims = new HashMap<>();
-    return buildToken(claims, username, 604800000);
+    return buildToken(claims, username, appConfig.getExpiration());
   }
 
   public String generateRefreshToken(UserDetails userDetails) 
   {
-    return buildToken(new HashMap<>(), userDetails, 604800000);
+    return buildToken(new HashMap<>(), userDetails, appConfig.getExpiration());
   }
 
   private String buildToken(Map<String, Object> extraClaims, UserDetails userDetails, long expiration)
@@ -93,7 +99,7 @@ public class JwtService
 
   private Key getSignInKey() 
   {
-    byte[] keyBytes = Decoders.BASE64.decode("3cfa76ef14937c1c0ea519f8fc057a80fcd04a7420f8e8bcd0a7567c272e007b");
+    byte[] keyBytes = Decoders.BASE64.decode(appConfig.getSecretKey());
     return Keys.hmacShaKeyFor(keyBytes);
   }
 }
