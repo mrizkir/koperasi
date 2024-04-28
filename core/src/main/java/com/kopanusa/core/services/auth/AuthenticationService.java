@@ -24,10 +24,9 @@ public class AuthenticationService
   public ServiceResponse authenticate(LoginRequestBody request)
   {
     authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));
-    var user = userRepository.findByUsername(request.getUsername());
     
-    // var token = "123";
     var token = jwtService.generateToken(request.getUsername());
+
     Map<String, Object> data = new HashMap<>();
     data.put("token", token);
 
@@ -37,7 +36,19 @@ public class AuthenticationService
       .errorDesc("")
       .payload(data)
       .build();
+  }  
+  public ServiceResponse me()
+  {
+    var user = userRepository.findByUsername("admin");
+    
+    Map<String, Object> data = new HashMap<>();
+    data.put("user", user);
+
+    return ServiceResponse
+      .builder()
+      .errorCode(0)
+      .errorDesc("")
+      .payload(data)
+      .build();
   }
-  
-  
 }

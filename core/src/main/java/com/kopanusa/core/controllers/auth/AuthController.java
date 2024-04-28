@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -22,5 +23,10 @@ public class AuthController
   public ResponseEntity<ServiceResponse> authenticate(@RequestBody LoginRequestBody request)
   {
     return ResponseEntity.ok(service.authenticate(request));
+  }
+  @GetMapping("/me")
+  public ResponseEntity<ServiceResponse> me()
+  {
+    return ResponseEntity.ok(service.me());
   }
 }
