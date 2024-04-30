@@ -2,12 +2,12 @@ server:
   port: 8888
 spring:
   profiles:
-    active: "development"
+    active: "production"
   application:
     name: core
   devtools:
     livereload:
-      enabled: true
+      enabled: false
   datasource:
     url: jdbc:postgresql://localhost:5432/koperasi
     username: postgres
