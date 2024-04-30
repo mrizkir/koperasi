@@ -19,7 +19,7 @@ public class ServiceResponse
 {
   @NonNull
   @JsonProperty("error_code")
-  private int errorCode;
+  private String errorCode;
 
   @NonNull
   @JsonProperty("error_desc")

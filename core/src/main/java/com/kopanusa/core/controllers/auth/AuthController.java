@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.kopanusa.core.services.ServiceResponse;
 import com.kopanusa.core.services.auth.AuthenticationService;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.http.ResponseEntity;
@@ -20,7 +21,7 @@ public class AuthController
 {
   private final AuthenticationService service;
   @PostMapping("/login")
-  public ResponseEntity<ServiceResponse> authenticate(@RequestBody LoginRequestBody request)
+  public ResponseEntity<ServiceResponse> authenticate(@Valid @RequestBody LoginRequestBody request)
   {
     return ResponseEntity.ok(service.authenticate(request));
   }

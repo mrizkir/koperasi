@@ -41,7 +41,7 @@ public class AuthenticationService
 
     return ServiceResponse
       .builder()
-      .errorCode(0)
+      .errorCode("0")
       .errorDesc("")
       .payload(data)
       .build();
@@ -56,7 +56,7 @@ public class AuthenticationService
 
     return ServiceResponse
       .builder()
-      .errorCode(0)
+      .errorCode("0")
       .errorDesc("")
       .payload(data)
       .build();

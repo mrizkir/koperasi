@@ -39,7 +39,7 @@ public class UserService
     
     return ServiceResponse
       .builder()
-      .errorCode(0)
+      .errorCode("0")
       .errorDesc("")
       .payload(data)
       .build();
