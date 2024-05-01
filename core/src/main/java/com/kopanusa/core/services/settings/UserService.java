@@ -1,6 +1,5 @@
 package com.kopanusa.core.services.settings;
 
-import java.util.HashMap;
 
 import org.springframework.stereotype.Service;
 
