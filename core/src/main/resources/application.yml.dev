@@ -32,6 +32,7 @@ logging:
   level:
     org.springframework.web: "debug"
     org.hibernate: "error"
+    org.springframework.security: "debug"
   file:
     name: "logs/kampus-core.log"
     max-size: 2MB

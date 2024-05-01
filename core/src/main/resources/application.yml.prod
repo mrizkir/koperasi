@@ -15,9 +15,9 @@ spring:
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
-      ddl-auto: none
+      ddl-auto: none #PERINGATAN: MERUBAH INI BISA MENGHAPUS DATA SELURUHNYA
     show-sql: true
-    properties:
+    properties: 
       hibernate: 
         format_sql: true
     database: postgresql
@@ -31,6 +31,7 @@ logging:
   level:
     org.springframework.web: "debug"
     org.hibernate: "error"
+    org.springframework.security: "debug"
   file:
     name: "logs/kampus-core.log"
     max-size: 2MB
