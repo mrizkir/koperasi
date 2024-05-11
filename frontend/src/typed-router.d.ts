@@ -19,5 +19,6 @@ declare module 'vue-router/auto-routes' {
    */
   export interface RouteNamedMap {
     '/front/DashboardFront': RouteRecordInfo<'/front/DashboardFront', '/front/DashboardFront', Record<never, never>, Record<never, never>>,
+    '/front/LoginFront': RouteRecordInfo<'/front/LoginFront', '/front/LoginFront', Record<never, never>, Record<never, never>>,
   }
 }

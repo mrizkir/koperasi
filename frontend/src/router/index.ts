@@ -7,9 +7,17 @@ const router = createRouter({
       path: "/",
       name: "FrontDashboard",
       meta: {
-        title: "DASHBOARD SIMONEV",
+        title: "WELCOME",
       },
       component: () => import("../pages/front/DashboardFront.vue"),
+    },
+    {
+      path: "/login",
+      name: "FrontLogin",
+      meta: {
+        title: "LOGIN",
+      },
+      component: () => import("../pages/front/LoginFront.vue"),
     },
   ]
 })
