@@ -1,16 +1,25 @@
-/**
- * router/index.ts
- *
- * Automatic routes for `./src/pages/*.vue`
- */
-
-// Composables
 import { createRouter, createWebHistory } from 'vue-router/auto'
-import { setupLayouts } from 'virtual:generated-layouts'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
-  extendRoutes: setupLayouts,
+  routes: [
+    {
+      path: "/",
+      name: "FrontDashboard",
+      meta: {
+        title: "WELCOME",
+      },
+      component: () => import("../pages/front/DashboardFront.vue"),
+    },
+    {
+      path: "/login",
+      name: "FrontLogin",
+      meta: {
+        title: "LOGIN",
+      },
+      component: () => import("../pages/front/LoginFront.vue"),
+    },
+  ]
 })
 
 export default router
