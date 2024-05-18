@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import com.kopanusa.core.controllers.IndexRequestBody;
 import com.kopanusa.core.controllers.dmaster.MasterAccountRequestBody;
 import com.kopanusa.core.models.master.MasterAccountModel;
-import com.kopanusa.core.repositories.master.MasterTokenRepository;
+import com.kopanusa.core.repositories.master.MasterAccountRepository;
 import com.kopanusa.core.services.ServiceResponse;
 
 import lombok.RequiredArgsConstructor;
@@ -18,11 +18,15 @@ import lombok.RequiredArgsConstructor;
 public class MasterAccountService 
 {
 
-  private final MasterTokenRepository repository;
+  private final MasterAccountRepository repository;
 
   public ServiceResponse index(IndexRequestBody request) 
   {
+    var accounts = repository.findAll();
+
     Map<String, Object> data = new HashMap<>();
+    data.put("list", accounts);
+
     return ServiceResponse
       .builder()
       .errorCode("0")

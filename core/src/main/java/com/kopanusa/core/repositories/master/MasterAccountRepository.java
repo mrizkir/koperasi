@@ -6,7 +6,7 @@ import com.kopanusa.core.models.master.MasterAccountModel;
 
 import java.util.List;
 
-public interface MasterTokenRepository extends JpaRepository<MasterAccountModel, String>
+public interface MasterAccountRepository extends JpaRepository<MasterAccountModel, String>
 {
   List<MasterAccountModel> findAll();
 }
