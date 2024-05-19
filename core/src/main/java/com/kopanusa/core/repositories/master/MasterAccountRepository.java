@@ -1,13 +1,10 @@
 package com.kopanusa.core.repositories.master;
 
-import org.springframework.data.domain.Limit;
-import org.springframework.data.jpa.repository.JpaRepository;
-
 import com.kopanusa.core.models.master.MasterAccountModel;
 
 import java.util.List;
 
-public interface MasterAccountRepository extends JpaRepository<MasterAccountModel, String>
+public interface MasterAccountRepository
 {
   // List<MasterAccountModel> findAll(Limit limit);
   /**
@@ -21,11 +18,11 @@ public interface MasterAccountRepository extends JpaRepository<MasterAccountMode
    * @param id
    * @return
   */
-  MasterAccountModel findById(Integer id);
+  MasterAccountModel findById(String id);
   /**
    * Mencari account berdasarkan nama
    * @param name
    * @return
   */
-  MasterAccountModel findByNameContainingIgnoreCase(String name);
+  MasterAccountModel findByName(String name);
 }

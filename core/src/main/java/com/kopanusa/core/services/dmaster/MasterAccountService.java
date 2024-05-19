@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import com.kopanusa.core.controllers.IndexRequestBody;
 import com.kopanusa.core.controllers.dmaster.MasterAccountRequestBody;
 import com.kopanusa.core.models.master.MasterAccountModel;
-import com.kopanusa.core.repositories.master.MasterAccountRepository;
+import com.kopanusa.core.repositories.master.MasterAccountRepositoryImpl;
 import com.kopanusa.core.services.ServiceResponse;
 
 import lombok.RequiredArgsConstructor;
@@ -19,7 +19,7 @@ import lombok.RequiredArgsConstructor;
 public class MasterAccountService 
 {
 
-  private final MasterAccountRepository repository;
+  private final MasterAccountRepositoryImpl repository;
 
   public ServiceResponse index(IndexRequestBody request) 
   {
@@ -29,7 +29,7 @@ public class MasterAccountService
     var filter = request.getFilter();
 
     // var accounts = repository.findById(filter);
-    var accounts = repository.findByNameContainingIgnoreCase(filter);
+    var accounts = repository.findByName(filter);
 
     Map<String, Object> data = new HashMap<>();
     data.put("list", accounts);
