@@ -23,4 +23,8 @@ public class ApplicationConfig
   @Getter
   @Value("${jwt.refresh-token.expiration}")
   private long refreshTokenExpiration;
+
+  @Getter
+  @Value("${spring.jpa.hibernate.ddl-auto}")
+  private String ddlAuto;
 }
